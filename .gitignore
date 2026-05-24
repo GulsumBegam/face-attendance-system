@@ -1,0 +1,6 @@
+venv/
+__pycache__/
+attendance.db
+registered_faces/
+*.pyc
+temp_frame.jpg
