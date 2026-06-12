@@ -1,536 +1,166 @@
-cat > /mnt/user-data/outputs/README.md << 'MDEOF'
 # 🎓 Face Recognition Attendance System
 
-<div align="center">
+A desktop attendance management application that uses real-time face recognition to mark student attendance automatically. Built with **Python, OpenCV, DeepFace, and Tkinter**, with attendance records stored in **SQLite** and exportable to **CSV**.
 
-![Python](https://img.shields.io/badge/Python-3.11-blue?style=for-the-badge&logo=python&logoColor=white)
-![DeepFace](https://img.shields.io/badge/DeepFace-VGG--Face-purple?style=for-the-badge)
-![OpenCV](https://img.shields.io/badge/OpenCV-4.x-green?style=for-the-badge&logo=opencv&logoColor=white)
-![SQLite](https://img.shields.io/badge/SQLite-Database-orange?style=for-the-badge&logo=sqlite&logoColor=white)
-![Tkinter](https://img.shields.io/badge/Tkinter-GUI-red?style=for-the-badge)
-
-**An AI-powered automated attendance system using face recognition**
-Built with ❤️ by **Gulsum Begam** | MCA 2026
-
-</div>
+![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)
+![OpenCV](https://img.shields.io/badge/OpenCV-4.x-5C3EE8?logo=opencv&logoColor=white)
+![DeepFace](https://img.shields.io/badge/DeepFace-AI%20Powered-orange)
+![Tkinter](https://img.shields.io/badge/GUI-Tkinter-yellowgreen)
+![SQLite](https://img.shields.io/badge/Database-SQLite-07405E?logo=sqlite&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
 
-## 📸 Screenshots
+## 📸 Demo
 
-### 🏠 Main Dashboard
-
-```
-╔══════════════════════════════════════════════════════════════════════╗
-║  🎓 Face Recognition Attendance System          25 May 2026 10:30AM ║
-╠═══════════════╦══════════════════════════════════════════════════════╣
-║   ACTIONS     ║  📷 Camera Feed                                      ║
-║               ║ ┌──────────────────────────────────────────────────┐ ║
-║ 📷 Register   ║ │                                                  │ ║
-║ ✅ Start      ║ │         Camera not active                        │ ║
-║ ⏹ Stop       ║ │    Click 'Start Attendance' to begin             │ ║
-║               ║ │                                                  │ ║
-║   VIEW        ║ └──────────────────────────────────────────────────┘ ║
-║ 📅 Today      ║  System ready. Register students first.              ║
-║ 📋 All        ╠══════════════════════════════════════════════════════╣
-║ 👥 Students   ║  📋 Records                                          ║
-║               ║  Name     │ Roll No │  Date      │ Time  │ Status   ║
-║   TOOLS       ║  ─────────┼─────────┼────────────┼───────┼────────  ║
-║ 💾 Export     ║                                                      ║
-║ 🗑 Delete     ║                                                      ║
-║               ║                                                      ║
-║ ─────────     ║                                                      ║
-║ 📊 Stats      ║                                                      ║
-║ Students: 0   ║                                                      ║
-║ Present: 0    ║                                                      ║
-║ Model: ✅     ║                                                      ║
-╚═══════════════╩══════════════════════════════════════════════════════╝
-```
-
----
-
-### 👥 Registered Students
-
-```
-╔══════════════════════════════════════════════════════════════════════╗
-║  🎓 Face Recognition Attendance System          25 May 2026 10:32AM ║
-╠═══════════════╦══════════════════════════════════════════════════════╣
-║   ACTIONS     ║  📷 Camera Feed                                      ║
-║               ║ ┌──────────────────────────────────────────────────┐ ║
-║ 📷 Register   ║ │         Camera not active                        │ ║
-║ ✅ Start      ║ └──────────────────────────────────────────────────┘ ║
-║ ⏹ Stop       ║  ✅ Registered: Guls (101)                           ║
-║               ╠══════════════════════════════════════════════════════╣
-║   VIEW        ║  📋 Records — Registered Students (2 total)          ║
-║ 📅 Today      ║                                                      ║
-║ 📋 All        ║  Name     │ Roll No │  Date  │ Time │   Status      ║
-║ 👥 Students   ║  ─────────┼─────────┼────────┼──────┼────────────   ║
-║               ║  Guls     │   101   │   —    │  —   │ Registered   ║
-║   TOOLS       ║  Aksh     │   102   │   —    │  —   │ Registered   ║
-║ 💾 Export     ║                                                      ║
-║ 🗑 Delete     ║                                                      ║
-║               ║                                                      ║
-║ ─────────     ║                                                      ║
-║ 📊 Stats      ║                                                      ║
-║ Students: 2   ║                                                      ║
-║ Present: 0    ║                                                      ║
-║ Model: ✅     ║                                                      ║
-╚═══════════════╩══════════════════════════════════════════════════════╝
-```
-
----
-
-### 📷 Live Attendance Running
-
-```
-╔══════════════════════════════════════════════════════════════════════╗
-║  🎓 Face Recognition Attendance System          25 May 2026 10:35AM ║
-╠═══════════════╦══════════════════════════════════════════════════════╣
-║   ACTIONS     ║  📷 Camera Feed                                      ║
-║               ║ ┌──────────────────────────────────────────────────┐ ║
-║ 📷 Register   ║ │  Present Today: 1  |  ESC = Stop                 │ ║
-║ ✅ Start      ║ │                                                   │ ║
-║ ⏹ Stop       ║ │         🟣─────────────────┐                      │ ║
-║               ║ │         │   😊 FACE BOX   │                      │ ║
-║   VIEW        ║ │         │─────────────────┘                      │ ║
-║ 📅 Today      ║ │         │      Guls        │                      │ ║
-║ 📋 All        ║ └──────────────────────────────────────────────────┘ ║
-║ 👥 Students   ║  ✅ Attendance marked: Guls (101)                    ║
-║               ╠══════════════════════════════════════════════════════╣
-║   TOOLS       ║  📋 Records — Today 25 May 2026                      ║
-║ 💾 Export     ║                                                      ║
-║ 🗑 Delete     ║  Name  │ Roll No │    Date    │  Time   │  Status   ║
-║               ║  ──────┼─────────┼────────────┼─────────┼────────   ║
-║ ─────────     ║  Guls  │   101   │ 2026-05-25 │ 10:35:22│ Present  ║
-║ 📊 Stats      ║                                                      ║
-║ Students: 2   ║                                                      ║
-║ Present: 1    ║                                                      ║
-║ Model: ✅     ║                                                      ║
-╚═══════════════╩══════════════════════════════════════════════════════╝
-```
-
----
-
-### ✅ Attendance Marked — Both Students
-
-```
-╔══════════════════════════════════════════════════════════════════════╗
-║  🎓 Face Recognition Attendance System          25 May 2026 10:38AM ║
-╠═══════════════╦══════════════════════════════════════════════════════╣
-║   ACTIONS     ║  📷 Camera Feed (Running)                            ║
-║               ║ ┌──────────────────────────────────────────────────┐ ║
-║ 📷 Register   ║ │  Present Today: 2  |  ESC = Stop                 │ ║
-║ ✅ Start      ║ │                                                   │ ║
-║ ⏹ Stop       ║ │    🟣──────┐        🟣──────┐                     │ ║
-║               ║ │    │ 😊  │        │ 😊  │                     │ ║
-║   VIEW        ║ │    │ Guls│        │ Aksh│                     │ ║
-║ 📅 Today      ║ │    └─────┘        └─────┘                     │ ║
-║ 📋 All        ║ └──────────────────────────────────────────────────┘ ║
-║ 👥 Students   ║  ✅ Attendance marked: Aksh (102)                    ║
-║               ╠══════════════════════════════════════════════════════╣
-║   TOOLS       ║  📋 Records — Today 25 May 2026 (2 Present)          ║
-║ 💾 Export     ║                                                      ║
-║ 🗑 Delete     ║  Name  │ Roll No │    Date    │  Time   │  Status   ║
-║               ║  ──────┼─────────┼────────────┼─────────┼────────   ║
-║ ─────────     ║  Aksh  │   102   │ 2026-05-25 │ 10:38:05│ Present  ║
-║ 📊 Stats      ║  Guls  │   101   │ 2026-05-25 │ 10:35:22│ Present  ║
-║ Students: 2   ║                                                      ║
-║ Present: 2    ║                                                      ║
-║ Model: ✅     ║                                                      ║
-╚═══════════════╩══════════════════════════════════════════════════════╝
-```
-
----
-
-### 💾 CSV Export Sample
-
-```
-Name  | Roll No |    Date    |   Time   | Status
-------|---------|------------|----------|--------
-Guls  |   101   | 2026-05-25 | 10:35:22 | Present
-Aksh  |   102   | 2026-05-25 | 10:38:05 | Present
-```
-
----
-
-## 🎭 Meet The Students
-
-```
-        Roll No: 101                    Roll No: 102
-       ╭──────────────╮               ╭──────────────╮
-       │   \  😊  /   │               │   \  😎  /   │
-       │    (Guls)    │               │    (Aksh)    │
-       │   /──────\   │               │   /──────\   │
-       │  Student 👩  │               │  Student 👦  │
-       ╰──────────────╯               ╰──────────────╯
-        ✅ Registered                   ✅ Registered
-        ✅ Present Today                ✅ Present Today
-```
+![App Demo](./demo.gif)
 
 ---
 
 ## ✨ Features
 
-| Feature | Description |
-|---|---|
-| 📷 **Face Registration** | Capture student face via webcam |
-| 🤖 **AI Recognition** | DeepFace VGG-Face model |
-| ✅ **Auto Attendance** | Marks once per day automatically |
-| 🗄️ **SQLite Database** | Stores all records permanently |
-| 💾 **CSV Export** | Download attendance as spreadsheet |
-| 🗑️ **Delete Student** | Remove registered students |
-| 📊 **Live Stats** | Real-time present count |
-| 🎨 **Dark UI** | Beautiful dark themed Tkinter GUI |
+- 🧑‍🎓 **Register Students** — Add new students with name, roll number, and a captured face photo
+- 🎥 **Live Camera Feed** — Real-time face detection and recognition via webcam
+- ✅ **Automatic Attendance Marking** — Detects and recognizes faces, marks attendance instantly
+- 📅 **Today's Records** — View a quick summary of who's present today
+- 📊 **All Attendance** — Browse the complete attendance history
+- 👥 **All Students** — View the full list of registered students
+- 📤 **Export to CSV** — One-click export of attendance data for reporting
+- 🗑️ **Delete Student** — Remove a student and their records with confirmation
+- 🧹 **Clear Today's Marks** — Reset today's attendance with a safety confirmation
+- 📈 **Live Stats Panel** — Shows total students and number present today
+
+---
+
+## 🖥️ Application Walkthrough
+
+### 🏠 Home Screen
+The main dashboard showing the camera feed, action buttons, and live attendance records.
+
+![Home Screen](./01_home.png)
+
+### ➕ Registering a New Student
+
+**Step 1 — Enter Name**
+
+![Register Name](./02_register_name.png)
+
+**Step 2 — Enter Roll Number / ID**
+
+![Register Roll No](./03_register_roll.png)
+
+**Step 3 — Capture Instructions**
+
+![Capture Instructions](./04_capture_prompt.png)
+
+**Step 4 — Face Capture**
+
+The system detects the face in real time and captures it for recognition training.
+
+![Face Capture](./05_face_capture.png)
+
+### 🎯 Live Face Recognition & Attendance Marking
+
+Once attendance starts, the system recognizes registered faces and marks them present automatically.
+
+![Live Recognition](./06_recognition.png)
+
+### 📅 Today's Records
+
+![Today's Records](./07_today_records.png)
+
+### 📊 All Attendance History
+
+![All Attendance](./08_all_attendance.png)
+
+### 👥 All Registered Students
+
+![All Students](./09_all_students.png)
+
+### 📤 Export to CSV
+
+Attendance data can be exported to a CSV file with a single click.
+
+![Export to CSV](./10_export_csv.png)
+
+### 🗑️ Delete Student
+
+**Step 1 — Enter Roll Number**
+
+![Delete Student](./11_delete_student.png)
+
+**Step 2 — Confirm Deletion**
+
+![Confirm Delete](./12_delete_confirm.png)
+
+### 🧹 Clear Today's Attendance
+
+![Clear Today](./13_clear_today.png)
 
 ---
 
 ## 🛠️ Tech Stack
 
-```
-Python 3.11
-├── DeepFace      → Face recognition (VGG-Face model)
-├── OpenCV        → Webcam & face detection
-├── Tkinter       → Desktop GUI
-├── SQLite3       → Database
-├── Pillow        → Image processing
-└── NumPy         → Array operations
-```
+| Technology | Purpose |
+|---|---|
+| **Python** | Core programming language |
+| **OpenCV (cv2)** | Camera access, face detection, image processing |
+| **DeepFace** | Deep learning-based face recognition |
+| **TensorFlow / Keras (tf-keras)** | Backend for DeepFace models |
+| **Tkinter** | GUI framework |
+| **Pillow (PIL)** | Image handling for the GUI |
+| **SQLite3** | Local database for students & attendance |
+| **NumPy** | Numerical operations on image arrays |
+| **CSV** | Attendance export |
 
 ---
 
 ## ⚙️ Installation
 
-```bash
-# 1. Clone the repo
-git clone https://github.com/GulsumBegam/face-attendance-system.git
-cd face-attendance-system
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/<your-username>/face-recognition-attendance-system.git
+   cd face-recognition-attendance-system
+   ```
 
-# 2. Create virtual environment
-py -3.11 -m venv venv
-.\venv\Scripts\activate
+2. **Install the required dependencies**
+   ```bash
+   pip install opencv-python pillow numpy deepface tensorflow tf-keras
+   ```
 
-# 3. Install dependencies
-pip install -r requirements.txt
-```
-
----
-
-## ▶️ Run
-
-```bash
-python face_attendance.py
-```
+3. **Run the application**
+   ```bash
+   python face_attendance.py
+   ```
 
 ---
 
-## 📖 How To Use
+## 🚀 Usage
 
-```
-Step 1 → Click "Register Student"
-         Enter name (e.g. Guls) and Roll No (e.g. 101)
-         Look at camera → Press SPACE to capture face
-
-Step 2 → Click "Start Attendance"
-         Webcam opens → AI detects & recognizes faces
-         Attendance marked automatically ✅
-
-Step 3 → Click "Today's Records" to view attendance
-
-Step 4 → Click "Export to CSV" to download as spreadsheet
-```
+1. Click **Register Student** to add a new student — enter their name, roll number, and capture their face.
+2. Click **Start Attendance** to activate the camera and begin recognizing faces in real time.
+3. Recognized students are automatically marked **Present** for the day.
+4. Use **Today's Records**, **All Attendance**, or **All Students** to view data.
+5. Click **Export to CSV** to save attendance records for the day.
+6. Use **Delete Student** or **Clear Today Marks** for management/admin tasks.
 
 ---
 
 ## 📁 Project Structure
 
 ```
-face-attendance-system/
-├── face_attendance.py     ← Main application
-├── requirements.txt       ← Dependencies
-├── README.md              ← This file
-├── attendance.db          ← SQLite database (auto-created)
-└── registered_faces/      ← Student face images (auto-created)
-    ├── 101.jpg
-    └── 102.jpg
+face-recognition-attendance-system/
+├── face_attendance.py        # Main application file
+├── attendance.db              # SQLite database (auto-created)
+├── student_images/            # Captured face images
+├── attendance_YYYY-MM-DD.csv  # Exported attendance reports
+└── README.md
 ```
 
 ---
 
 ## 👩‍💻 Author
 
-**Gulsum Begam**
-MCA Student | Graduating May 2026
-The Standard Fireworks Rajaratnam College for Women
-Madurai Kamaraj University
+**Gulsum Begam A**
 
-[![GitHub](https://img.shields.io/badge/GitHub-GulsumBegam-black?style=flat-square&logo=github)](https://github.com/GulsumBegam)
-[![Portfolio](https://img.shields.io/badge/Portfolio-gulsumportfolio.github.io-purple?style=flat-square)](https://gulsumportfolio.github.io)
-
----
-
-<div align="center">
-Made with ❤️ and Python 🐍
-</div>
-MDEOF
-echo "Done!"
-
-#  Face Recognition Attendance System
-
-> An AI-powered smart attendance management system using DeepFace, OpenCV, Tkinter, and SQLite.
-
-![Python](https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=python)
-![OpenCV](https://img.shields.io/badge/OpenCV-Computer%20Vision-green?style=for-the-badge&logo=opencv)
-![DeepFace](https://img.shields.io/badge/DeepFace-AI-orange?style=for-the-badge)
-![SQLite](https://img.shields.io/badge/SQLite-Database-blue?style=for-the-badge&logo=sqlite)
-![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-
----
-
-## ✨ Overview
-
-The **Face Recognition Attendance System** is a real-time AI-based desktop application that automates student attendance using facial recognition technology.
-
-Instead of manual attendance marking, the system:
-- detects faces through webcam
-- recognizes registered students
-- marks attendance automatically
-- stores records securely in SQLite database
-- exports attendance reports as CSV files
-
-Built with:
-- 🧠 DeepFace AI
-- 🎥 OpenCV
-- 🖥 Tkinter GUI
-- 🗄 SQLite3 Database
-
----
-
-# 🚀 Features
-
-✅ Real-Time Face Recognition  
-✅ AI-Powered Student Verification  
-✅ Student Registration with Webcam  
-✅ Automatic Attendance Marking  
-✅ Modern Dark-Themed GUI  
-✅ SQLite Database Integration  
-✅ CSV Attendance Export  
-✅ Duplicate Attendance Prevention  
-✅ Student Management System  
-✅ Multi-threaded Performance Optimization  
-
----
-
-# 🛠 Tech Stack
-
-| Technology | Purpose |
-|---|---|
-| Python | Core Programming |
-| OpenCV | Camera & Face Detection |
-| DeepFace | AI Face Recognition |
-| Tkinter | Desktop GUI |
-| SQLite3 | Local Database |
-| Pillow | Image Processing |
-| NumPy | Numerical Operations |
-
----
-
-# 📸 Application Modules
-
-## 👤 Student Registration
-- Capture student face through webcam
-- Store face image securely
-- Register student details in database
-
-## 🎯 Face Recognition
-- Detect faces in real time
-- Compare with registered students
-- Verify identity using DeepFace AI
-
-## 📅 Attendance Management
-- Auto-mark attendance
-- Prevent duplicate entries
-- View daily attendance records
-
-## 📤 Export System
-- Export attendance reports to CSV
-- Easy sharing and documentation
-
----
-
-# 🧠 AI Recognition Flow
-
-```text
-Webcam Feed
-     ↓
-Face Detection (OpenCV)
-     ↓
-Face Verification (DeepFace)
-     ↓
-Student Match Found
-     ↓
-Attendance Stored in SQLite
-```
-
----
-
-# 📂 Project Structure
-
-```text
-face-attendance-system/
-│
-├── face_attendance.py
-├── README.md
-├── requirements.txt
-├── .gitignore
-│
-├── registered_faces/
-├── attendance.db
-└── exports/
-```
-
----
-
-# ⚙️ Installation
-
-## 1️⃣ Clone Repository
-
-```bash
-git clone https://github.com/GulsumBegam/face-attendance-system.git
-```
-
----
-
-## 2️⃣ Move Into Project Folder
-
-```bash
-cd face-attendance-system
-```
-
----
-
-## 3️⃣ Create Virtual Environment
-
-```bash
-python -m venv venv
-```
-
----
-
-## 4️⃣ Activate Environment
-
-### Windows
-```bash
-venv\Scripts\activate
-```
-
-### Linux / Mac
-```bash
-source venv/bin/activate
-```
-
----
-
-## 5️⃣ Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-# ▶️ Run Application
-
-```bash
-python face_attendance.py
-```
-
----
-
-# 📋 How To Use
-
-## Register Student
-1. Click **Register Student**
-2. Enter student details
-3. Capture face using webcam
-4. Student gets added to database
-
-## Start Attendance
-1. Click **Start Attendance**
-2. AI recognizes faces automatically
-3. Attendance gets marked instantly
-
-## Export Attendance
-1. Click **Export CSV**
-2. Attendance report saves locally
-
----
-
-# 🔒 Database Design
-
-## Students Table
-| Field | Description |
-|---|---|
-| id | Primary Key |
-| name | Student Name |
-| roll_no | Unique Roll Number |
-| img_path | Stored Face Image |
-
-## Attendance Table
-| Field | Description |
-|---|---|
-| id | Primary Key |
-| roll_no | Student Roll Number |
-| name | Student Name |
-| date | Attendance Date |
-| time | Attendance Time |
-| status | Present/Absent |
-
----
-
-# 🎯 Future Improvements
-
-- 🌐 Web-Based Version
-- ☁ Cloud Database Integration
-- 📱 Mobile App Support
-- 🔔 Email Notifications
-- 📊 Analytics Dashboard
-- 🧾 PDF Report Export
-- 👥 Multi-Face Recognition
-- 🔐 User Authentication System
-
----
-
-# 💡 Key Highlights
-
-- Real-world AI application
-- Practical automation system
-- Modern UI experience
-- Efficient database handling
-- Beginner-to-intermediate level AI integration
-- Resume-ready full project
-
----
-
-# 👩‍💻 Author
-
-## Gulsum Begam
-Aspiring Full Stack Developer & AI Enthusiast 🌙
-
-- 💻 Passionate about Full Stack Development
-- 🤖 Interested in AI-Powered Applications
-- 🚀 Building real-world software projects
-
----
-
-# ⭐ Support
-
-If you like this project:
-
-⭐ Star the repository  
-🍴 Fork the project  
-🚀 Share with others  
-
----
-
-
-> “Turning ideas into intelligent software.” 🌙
+⭐ If you found this project useful, consider giving it a star!
